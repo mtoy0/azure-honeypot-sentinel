@@ -1,0 +1,19 @@
+// Failed RDP logins by attacker IP
+SecurityEvent
+| where EventID == 4625
+| summarize Fails = count() by IpAddress
+| order by Fails desc
+
+// Top attempted usernames
+SecurityEvent
+| where EventID == 4625
+| summarize Attempts = count() by TargetUserName
+| top 10 by Attempts
+
+// Failed logins enriched with GeoIP watchlist
+let GeoIPDB = _GetWatchlist("geoip");
+SecurityEvent
+| where EventID == 4625
+| evaluate ipv4_lookup(GeoIPDB, IpAddress, network)
+| summarize Fails = count() by IpAddress, cityname, countryname, latitude, longitude
+| order by Fails desc

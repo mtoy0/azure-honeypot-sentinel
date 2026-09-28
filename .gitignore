@@ -1,0 +1,6 @@
+*.csv
+.env
+*.pem
+*.key
+.DS_Store
+Thumbs.db
