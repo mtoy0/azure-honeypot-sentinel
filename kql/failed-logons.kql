@@ -1,0 +1,6 @@
+// Failed RDP logons (Event 4625) by attacker IP and username tried
+SecurityEvent
+| where EventID == 4625
+| where IpAddress != "-"
+| summarize FailedAttempts = count() by IpAddress, Account
+| order by FailedAttempts desc

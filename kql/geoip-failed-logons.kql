@@ -1,0 +1,9 @@
+// Failed logons enriched with geolocation (built-in geo_info_from_ip_address)
+SecurityEvent
+| where EventID == 4625
+| where IpAddress != "-"
+| summarize FailedAttempts = count() by IpAddress
+| extend Geo = geo_info_from_ip_address(IpAddress)
+| extend Country = tostring(Geo.country), City = tostring(Geo.city), Lat = toreal(Geo.latitude), Lon = toreal(Geo.longitude)
+| project IpAddress, Country, City, Lat, Lon, FailedAttempts
+| order by FailedAttempts desc

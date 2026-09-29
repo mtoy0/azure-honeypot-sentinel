@@ -1,0 +1,4 @@
+// Headline numbers: total failed logons, unique IPs, unique usernames
+SecurityEvent
+| where EventID == 4625
+| summarize TotalAttempts = count(), UniqueIPs = dcount(IpAddress), UniqueAccounts = dcount(Account)

@@ -1,0 +1,3 @@
+// Confirm SecurityEvent logs are flowing from vm-honeypot
+SecurityEvent
+| take 10

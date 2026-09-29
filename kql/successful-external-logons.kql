@@ -1,0 +1,5 @@
+// Check for successful logons (4624) from outside IPs - should be empty
+SecurityEvent
+| where EventID == 4624
+| where IpAddress != "-" and IpAddress != "127.0.0.1"
+| project TimeGenerated, Account, IpAddress, LogonType
